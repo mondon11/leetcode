@@ -26,13 +26,12 @@ class Solution(object):
         max_len = 0
         lookup = {}
         for cur in range(len(s)):
-            if lookup.get(s[cur]) is None:
-                lookup[s[cur]] = cur
-                max_len = max(max_len,cur- start +1)
-            else:
-                start = max(lookup[s[cur]]+1,start)
-                lookup[s[cur]] = cur
-                max_len = max(max_len, cur - start + 1)
+            # 重复出现的字母是不是在start-cur之间这个滑动窗口中，如果是则变start的位置
+            if lookup.get(s[cur]) is not None: #重复出现
+                if lookup[s[cur]] + 1 > start: #在滑动窗口之间
+                    start = lookup[s[cur]] + 1
+            lookup[s[cur]] = cur
+            max_len = max(max_len, cur - start + 1)
         return max_len
 
 if __name__ == '__main__':
