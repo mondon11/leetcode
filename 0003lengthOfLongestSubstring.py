@@ -7,19 +7,35 @@ class Solution(object):
         :rtype: int
         """
         n = len(s)
+        max_len = 0
         if n <= 1:
             return n
+        for i in range(n):
+            lookup = set()
+            lookup.add(s[i])
+            for j in range(i+1,n):
+                if s[j] not in lookup:
+                    lookup.add(s[j])
+                else:
+                    break
+            max_len = max(len(lookup),max_len)
+        return max_len
+
+    def lengthOfLongestSubstring1(self, s):
         start = 0
         max_len = 0
-        hashtable = {}
-        for cur in range(n):
-            item = hashtable.get(s[cur])
-            if item is None:
-                hashtable[s[cur]] = cur
+        lookup = {}
+        for cur in range(len(s)):
+            if lookup.get(s[cur]) is None:
+                lookup[s[cur]] = cur
+                max_len = max(max_len,cur- start +1)
             else:
-                max_len_in = cur - start
-                start = hashtable[s[cur]] + 1
-                hashtable[s[cur]] = cur
-                if max_len_in > max_len:
-                    max_len = max_len_in
+                start = max(lookup[s[cur]]+1,start)
+                lookup[s[cur]] = cur
+                max_len = max(max_len, cur - start + 1)
         return max_len
+
+if __name__ == '__main__':
+    sol = Solution()
+    print(sol.lengthOfLongestSubstring("pwwkep"))
+    print(sol.lengthOfLongestSubstring1("pwwkep"))
