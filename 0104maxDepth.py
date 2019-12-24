@@ -22,4 +22,3 @@ class Tree(object):
         if not self.root:
             self.root = node
             return
-        
